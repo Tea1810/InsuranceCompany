@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit insurance{% endblock %}
+{% block TabelTitle %}
+    Edit service
+    <a href="../insurances" class="btn btn-primary float-end">Back</a>
+{% endblock %}
+{% block TableBody %}
+    <form action="../../EntityManager.php" method="POST">
+        <input type="hidden" name="id" value="{{ insurance.id }}"/>
+        <div class="mb-3">
+            <label>Type</label>
+            <input type="text" name="type" value="{{ insurance.type }}" class="form-control" readonly/>
+        </div>
+        <div class="mb-3">
+            <label>Status</label>
+            <select name="status" class="form-control" required>
+                <option value="Active">Active</option>
+                <option value="Inactive">Inactive</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label>Insuring company</label>
+            <input type="text" name="type" value="{{ insurance.insurer.name }}" class="form-control" readonly/>
+        </div>
+        <div class="mb-3">
+            <label>Customer</label>
+            <input type="text" name="type" value="{{ insurance.insured.name }}" class="form-control" readonly/>
+        </div>
+        {% if(insurance.type=="Private") %}
+        <div class="mb-3" id="servicesDiv" style="display: block;">
+            <label>Services</label>
+            <select id="servicesSelect" name="services[]" class="form-control" multiple>
+                {% for service in services %}
+                    <option value="{{ service.id }}">{{ service.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+            <div class="mb-3">
+                <button type="submit" name="updateInsurance" class="btn btn-primary">Save insurance</button>
+            </div>
+        {% endif %}
+    </form>
+{% endblock %}

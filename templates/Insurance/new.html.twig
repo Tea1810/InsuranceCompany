@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Insurance{% endblock %}
+{% block TabelTitle %}Create new insurance
+    <a href="../insurances" class="btn btn-primary float-end">Back</a>
+{% endblock %}
+{% block TableBody %}
+
+    <form action="../../EntityManager.php" method="POST">
+        <div class="mb-3">
+            <label>Type</label>
+            <select id="typeSelect" name="type" class="form-control" required>
+                <option value="Dental">Dental</option>
+                <option value="Private">Private</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label>Status</label>
+            <select name="status" class="form-control" required>
+                <option value="Active">Active</option>
+                <option value="Inactive">Inactive</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label>Insuring company</label>
+            <select name="insurer_id" class="form-control" required>
+                {% for insurer in insurers %}
+                    <option value="{{ insurer.id }}">{{ insurer.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="mb-3">
+            <label>Customer</label>
+            <select name="insured_id" class="form-control" required>
+                {% for customer in customers %}
+                <option value="{{ customer.id }}">{{ customer.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="mb-3" id="servicesDiv" style="display: none;">
+            <label>Services</label>
+            <select id="servicesSelect" name="services[]" class="form-control" multiple>
+                {% for service in services %}
+                    <option value="{{ service.id }}">{{ service.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="mb-3">
+            <button type="submit" name="saveInsurance" class="btn btn-primary">Save service</button>
+        </div>
+    </form>
+{% endblock %}
+
+{% block javascripts %}
+<script>
+    document.getElementById('typeSelect').addEventListener('change', function() {
+        var selectedType = this.value;
+        if (selectedType === 'Private') {
+            document.getElementById('servicesDiv').style.display = 'block';
+        } else {
+            document.getElementById('servicesDiv').style.display = 'none';
+        }
+        document.getElementById('selectedType').value = selectedType;
+    });
+</script>{% endblock %}

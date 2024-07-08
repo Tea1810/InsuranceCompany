@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit service{% endblock %}
+{% block TabelTitle %}
+    Edit service
+    <a href="../services" class="btn btn-primary float-end">Back</a>
+{% endblock %}
+{% block TableBody %}
+    <form action="../../EntityManager.php" method="POST">
+        <input type="hidden" name="id" value="{{ service.id }}"/>
+        <div class="mb-3">
+            <label>Name</label>
+            <input type="text" name="name" value="{{ service.name }}" class="form-control"/>
+        </div>
+        <div class="mb-3">
+            <label>Price</label>
+            <input type="number" name="price" value="{{ service.price }}" class="form-control"/>
+        </div>
+        <div class="mb-3">
+            <button type="submit" name="updateService" class="btn btn-primary">Save service</button>
+        </div>
+    </form>
+{% endblock %}

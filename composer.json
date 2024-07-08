@@ -1,2 +1,12 @@
 {
+  "require": {
+    "ext-pdo": "*",
+    "twig/twig": "^3.0",
+    "doctrine/dbal": "^4.0",
+    "doctrine/orm": "^3.2",
+    "symfony/cache": "^7.1"
+  },
+  "autoload": {
+    "psr-0": {"": "src/"}
+  }
 }

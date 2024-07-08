@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Insurances{% endblock %}
+{% block TabelTitle %}
+    Available Insurances
+    <div class="float-end">
+    <a href="insurances/new" class="btn btn-primary ">Create new insurance</a>
+    <a href="customers/new" class="btn btn-primary ">Create new customer</a>
+    </div>
+{% endblock %}
+{% block TableBody %}
+    <table class="table table-bordered tabel-striped">
+        <thead>
+        <tr>
+            <th>Nr crt.</th>
+            <th>Type</th>
+            <th>Price</th>
+            <th>Status</th>
+            <th>Creation date</th>
+            <th>Customer</th>
+            <th>Insuring company</th>
+            <th>Services</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for insurance in insurances %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ insurance.type }}</td>
+                <td>{{ insurance.pricing }}</td>
+                <td>{{ insurance.status }}</td>
+                <td>{{ insurance.creationDate|date("Y-m-d") }}</td>
+                <td>{{ insurance.insured.name }}</td>
+                <td>{{ insurance.insurer.name }}</td>
+               <td> {% for service in insurance.services %}
+                <ul style="list-style: none;">
+                <li>{{ service.name }}</li>
+                </ul>
+                {% endfor %}</td>
+                <td>
+                    <a href="/insurances/{{ insurance.id }}"  class="btn btn-primary">Edit</a>
+                </td>
+                <td>
+                    <form action="../../EntityManager.php" method="POST">
+                        <button type="submit" name="deleteInsurance" value="{{ insurance.id }}" class="btn btn-danger">Delete</button>
+                    </form>
+
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody></table>
+{% endblock %}

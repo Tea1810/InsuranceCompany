@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Services{% endblock %}
+{% block TabelTitle %}
+    Available Customers
+    <a href="customers/new" class="btn btn-primary float-end">Create new customer</a>
+{% endblock %}
+{% block TableBody %}
+    <table class="table table-bordered tabel-striped">
+        <thead>
+        <tr>
+            <th>Nr crt.</th>
+            <th>Name</th>
+            <th>Address</th>
+            <th>Insurance</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for customer in customers %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ customer.name }}</td>
+                <td>{{ customer.address }}</td>
+                <td>{{ customer.insurance }}</td>
+                <td>
+                    <a href="/customers/{{ customer.id }}"  class="btn btn-primary">Edit</a>
+                </td>
+                <td>
+                    <form action="../../EntityManager.php" method="POST">
+                        <button type="submit" name="deleteCustomer" value="{{ customer.id }}" class="btn btn-danger">Delete</button>
+                    </form>
+
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody></table>
+{% endblock %}
