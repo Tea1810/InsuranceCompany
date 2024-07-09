@@ -30,6 +30,21 @@ class InsuranceRepository extends EntityRepository
         header('Location: /insurances');
         exit();
     }
+    public function createBasicInsurance(Insured $customer){
+        $type='Basic';
+        $status='Active';
+        $insurer=NULL;
+        $services=new ArrayCollection();
+
+        $entity=new Insurance($type, $status, $insurer, $customer, $services);
+
+        $customer->addInsurance($entity);
+
+        $this->getEntityManager()->persist($entity);
+        $this->getEntityManager()->flush();
+        header('Location: /insurances');
+        exit();
+    }
 
     public function createCollection():Collection{
         $services=new ArrayCollection();

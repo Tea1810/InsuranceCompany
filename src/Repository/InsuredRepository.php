@@ -2,17 +2,31 @@
 
 namespace Repository;
 
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\Mapping\ClassMetadata;
+use Entity\Insurance;
 use Entity\Insured;
 class InsuredRepository extends EntityRepository
 {
+    private InsuranceRepository $insuranceRepo;
+
+    public function __construct(EntityManagerInterface $em, ClassMetadata $class)
+    {
+        parent::__construct($em, $class);
+        $this->insuranceRepo = $em->getRepository(Insurance::class);
+    }
+
     public function save(): void
     {
         $name = $_POST['name'];
         $address = $_POST['address'];
 
         $entity=new Insured($name,$address);
+
         $this->getEntityManager()->persist($entity);
+        $this->insuranceRepo->createBasicInsurance($entity);
+
         $this->getEntityManager()->flush();
         header('Location: /insurances');
         exit();

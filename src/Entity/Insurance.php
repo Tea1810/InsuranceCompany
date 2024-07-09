@@ -42,24 +42,34 @@ class Insurance
     #[ORM\ManyToMany(targetEntity: Service::class, mappedBy: 'insurances')]
     private Collection $services;
 
-    public function __construct(string $type, string $status, Insurer $insurer, Insured $customer, Collection $services) {
+    private float $dentalInsurancePrice=500;
+    private float $basicInsurancePrice=0;
+    public function __construct(string $type, string $status, ?Insurer $insurer, Insured $customer, Collection $services) {
 
         $this->services=new ArrayCollection();
 
         $this->type=$type;
         $this->status=$status;
-        $this->pricing=$this->CalculatePrice($services);
+        foreach($services as $service){
+            $this->addServices($service);}
+        $this->pricing=$this->CalculatePrice();
         $this->insurer=$insurer;
         $this->insured=$customer;
-        foreach($services as $service){
-        $this->addServices($service);}
 
     }
+    private function CalculatePrice(){
 
-    private function CalculatePrice(Collection $services)
+        if($this->type=='Private')
+           return $this->CalculatePrivateIPrice();
+        else if($this->type=='Dental')
+            return $this->dentalInsurancePrice;
+        else
+            return $this->basicInsurancePrice;
+    }
+    private function CalculatePrivateIPrice()
     {
         $price=0;
-        foreach ($services as $service)
+        foreach ($this->services as $service)
         {
             $price+=$service->getPrice();
         }

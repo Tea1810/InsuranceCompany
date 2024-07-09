@@ -2,6 +2,7 @@
 
 namespace Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Repository\InsuredRepository;
@@ -25,6 +26,7 @@ class Insured
     private ?Collection $insurances;
 
     public function __construct($name, $address) {
+        $this->insurances=new ArrayCollection();
         $this->name = $name;
         $this->address = $address;
     }

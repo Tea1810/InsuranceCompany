@@ -39,7 +39,7 @@ if($pathParts[0]=="customers"){
 
 if($pathParts[0]=="insurances"){
     if(sizeof($pathParts)==1)
-        echo $insuranceController->DisplayInsurances();
+        echo $insuranceController->DisplayInsurances(null);
     elseif($pathParts[1]=="new")
         echo $insuranceController->DisplayNewInsurance();
     else

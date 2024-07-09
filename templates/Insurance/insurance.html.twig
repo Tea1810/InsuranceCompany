@@ -13,13 +13,23 @@
         <thead>
         <tr>
             <th>Nr crt.</th>
-            <th>Type</th>
-            <th>Price</th>
-            <th>Status</th>
+            <th>
+                <div class="d-flex align-items-center">
+                Type
+                <form action="../../EntityManager.php" method="POST">
+                    <button type="submit" name="sort" value="type" class="btn btn-sm"> <i class="fa-solid fa-sort-down"></i></button>
+                </form>
+                </div>
+            </th>
+            <th><div class="d-flex align-items-center">
+                    Status
+                    <form action="../../EntityManager.php" method="POST">
+                        <button type="submit" name="sort" value="type" class="btn btn-sm"> <i class="fa-solid fa-sort-down"></i></button>
+                    </form>
+                </div></th>
             <th>Creation date</th>
             <th>Customer</th>
             <th>Insuring company</th>
-            <th>Services</th>
             <th>Actions</th>
         </tr>
         </thead>
@@ -28,16 +38,10 @@
             <tr>
                 <td>{{ loop.index }}</td>
                 <td>{{ insurance.type }}</td>
-                <td>{{ insurance.pricing }}</td>
                 <td>{{ insurance.status }}</td>
                 <td>{{ insurance.creationDate|date("Y-m-d") }}</td>
                 <td>{{ insurance.insured.name }}</td>
                 <td>{{ insurance.insurer.name }}</td>
-               <td> {% for service in insurance.services %}
-                <ul style="list-style: none;">
-                <li>{{ service.name }}</li>
-                </ul>
-                {% endfor %}</td>
                 <td>
                     <a href="/insurances/{{ insurance.id }}"  class="btn btn-primary">Edit</a>
                 </td>
