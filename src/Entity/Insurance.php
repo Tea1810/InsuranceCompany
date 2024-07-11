@@ -109,7 +109,9 @@ class Insurance
     {
         $this->status = $status;
     }
-
+    public function getDentalInsurancePrice(){
+        return $this->dentalInsurancePrice;
+    }
     public function getCreationDate(): ?\DateTimeInterface
     {
         return $this->creation_date;

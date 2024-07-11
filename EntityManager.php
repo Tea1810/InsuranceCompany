@@ -29,8 +29,3 @@ if(isset($_POST['deleteInsurance'])) {
 if(isset($_POST['updateInsurance'])){
     $insuranceController->EditInsurance();
 }
-if(isset($_POST['sort'])){
-    $insuranceController->OrderBy($_POST['sort']);
-    header('Location: /insurances');
-    exit();
-}

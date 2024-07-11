@@ -23,21 +23,30 @@ class InsuranceController
         $this->insuranceRepository= $this->entityManager->getRepository(Insurance::Class);
 
     }
-    public function DisplayInsurances()
+    public function DisplayInsurances(?string $sortBy)
     {
-        return $this->twig->render('Insurance/insurance.html.twig', [
-            'insurances' => $this->insuranceRepository->findAll(),
-        ]);
+        $insurances=$sortBy
+                    ?$this->insuranceRepository->findBy([],[$sortBy=>'ASC'])
+                    :$this->insuranceRepository->findAll();
+
+            return $this->twig->render('Insurance/insurance.html.twig', [
+                'insurances' => $insurances,
+            ]);
+
+    }
+
+    public function OrderBy(string $criteria){
+        $this->insuranceRepository->setOrderCriteria($criteria);
     }
 
     public function DisplayNewInsurance()
     {
+
         return $this->twig->render('Insurance/new.html.twig', [
             'insurances' => $this->insuranceRepository->findAll(),
             'insurers'=>$this->entityManager->getRepository(Insurer::class)->findAll(),
             'customers'=>$this->entityManager->getRepository(Insured::class)->findAll(),
             'services'=>$this->entityManager->getRepository(Service::class)->findAll(),
-
         ]);
     }
     public function CreateInsurance()

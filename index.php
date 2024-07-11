@@ -5,7 +5,7 @@ use Controller\InsuranceController;
 use Controller\ServiceController;
 
 require_once('vendor/autoload.php');
-require_once ('db.php');
+require_once('db.php');
 
 $loader = new \Twig\Loader\FilesystemLoader('templates');
 $twig = new \Twig\Environment($loader, [
@@ -38,8 +38,10 @@ if($pathParts[0]=="customers"){
 }
 
 if($pathParts[0]=="insurances"){
-    if(sizeof($pathParts)==1)
-        echo $insuranceController->DisplayInsurances(null);
+    if(sizeof($pathParts)==1){
+        $sortBy=isset($_POST['sort'])? $_POST['sort']: null;
+        echo $insuranceController->DisplayInsurances($sortBy);
+    }
     elseif($pathParts[1]=="new")
         echo $insuranceController->DisplayNewInsurance();
     else

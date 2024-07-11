@@ -41,10 +41,11 @@
             <label>Services</label>
             <select id="servicesSelect" name="services[]" class="form-control" multiple>
                 {% for service in services %}
-                    <option value="{{ service.id }}">{{ service.name }}</option>
+                    <option value="{{ service.id }}" data-price="{{ service.price }}">{{ service.name }}</option>
                 {% endfor %}
             </select>
         </div>
+        <h6 id="priceMessage" class='alert alert-success' style="display: block;">Your yearly price will be : <br>  {{ insurances[0].dentalInsurancePrice }}.00$</h6>
         <div class="mb-3">
             <button type="submit" name="saveInsurance" class="btn btn-primary">Save service</button>
         </div>
@@ -55,11 +56,41 @@
 <script>
     document.getElementById('typeSelect').addEventListener('change', function() {
         var selectedType = this.value;
+        var priceMessage = document.getElementById('priceMessage');
+
         if (selectedType === 'Private') {
             document.getElementById('servicesDiv').style.display = 'block';
+            priceMessage.style.display = 'none';
         } else {
             document.getElementById('servicesDiv').style.display = 'none';
+            priceMessage.style.display = 'block';
+                var message = 'Your yearly price will be : '  + '<br>';
+                message +=  parseFloat("{{ insurances[0].dentalInsurancePrice }}").toFixed(2);
+                message += '$';
+                priceMessage.innerHTML = message;
         }
         document.getElementById('selectedType').value = selectedType;
     });
-</script>{% endblock %}
+    </script>
+    <script>
+        var servicesSelect = document.getElementById('servicesSelect');
+        var priceMessage = document.getElementById('priceMessage');
+
+        servicesSelect.addEventListener('change', function () {
+            var selectedValues = Array.from(servicesSelect.selectedOptions);
+            var selectedPrices = selectedValues.map(option => option.getAttribute('data-price'));
+
+            if (selectedValues.length > 0) {
+                priceMessage.style.display = 'block';
+                var message = 'Your monthly price will be : '  + '<br>';
+                var totalPrice = selectedPrices.reduce((sum, price) => sum + parseFloat(price), 0);
+                message +=  totalPrice.toFixed(2);
+                message += '$';
+                priceMessage.innerHTML = message;
+            } else {
+                priceMessage.style.display = 'none';
+            }
+        });
+
+    </script>
+{% endblock %}
