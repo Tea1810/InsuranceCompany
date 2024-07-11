@@ -16,20 +16,38 @@
             <th>
                 <div class="d-flex align-items-center">
                 Type
-                <form action="../../EntityManager.php" method="POST">
+                <form  method="POST" >
                     <button type="submit" name="sort" value="type" class="btn btn-sm"> <i class="fa-solid fa-sort-down"></i></button>
                 </form>
                 </div>
             </th>
             <th><div class="d-flex align-items-center">
                     Status
-                    <form action="../../EntityManager.php" method="POST">
-                        <button type="submit" name="sort" value="type" class="btn btn-sm"> <i class="fa-solid fa-sort-down"></i></button>
+                    <form method="POST">
+                        <button type="submit" name="sort" value="status" class="btn btn-sm"> <i class="fa-solid fa-sort-down"></i></button>
                     </form>
                 </div></th>
-            <th>Creation date</th>
-            <th>Customer</th>
-            <th>Insuring company</th>
+            <th>
+                <div class="d-flex align-items-center">
+                    Creation date
+                    <form method="POST">
+                        <button type="submit" name="sort" value="creation_date" class="btn btn-sm"> <i class="fa-solid fa-sort-down"></i></button>
+                    </form>
+                </div>
+            </th>
+            <th><div class="d-flex align-items-center">
+                   Customer
+                    <form method="POST">
+                        <button type="submit" name="sort" value="insured" class="btn btn-sm"> <i class="fa-solid fa-sort-down"></i></button>
+                    </form>
+                </div></th>
+            <th>
+                <div class="d-flex align-items-center">
+                    Insuring company
+                    <form method="POST">
+                        <button type="submit" name="sort" value="insurer" class="btn btn-sm"> <i class="fa-solid fa-sort-down"></i></button>
+                    </form>
+                </div></th>
             <th>Actions</th>
         </tr>
         </thead>
@@ -43,13 +61,12 @@
                 <td>{{ insurance.insured.name }}</td>
                 <td>{{ insurance.insurer.name }}</td>
                 <td>
-                    <a href="/insurances/{{ insurance.id }}"  class="btn btn-primary">Edit</a>
-                </td>
-                <td>
+                    <div class="d-flex align-items-center">
+                    <a href="/insurances/{{ insurance.id }}"  class="btn"><i class="fa-solid fa-pen-to-square"></i></a>
                     <form action="../../EntityManager.php" method="POST">
-                        <button type="submit" name="deleteInsurance" value="{{ insurance.id }}" class="btn btn-danger">Delete</button>
+                        <button type="submit" name="deleteInsurance" value="{{ insurance.id }}" class="btn"><i class="fa-solid fa-trash"></i></button>
                     </form>
-
+                    </div>
                 </td>
             </tr>
         {% endfor %}

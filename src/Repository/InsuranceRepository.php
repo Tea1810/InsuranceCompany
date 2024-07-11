@@ -12,6 +12,7 @@ use Entity\Service;
 
 class InsuranceRepository extends EntityRepository
 {
+    private ?string $sort=null;
     public function save(): void
     {
         $type=$_POST['type'];
@@ -77,5 +78,14 @@ class InsuranceRepository extends EntityRepository
         $this->getEntityManager()->flush();
         header('Location: /insurances');
         exit();
+    }
+
+    public function setOrderCriteria(string $criteria)
+    {
+        $this->sort=$criteria;
+    }
+
+    public function canOrder(){
+        return $this->sort;
     }
 }
