@@ -168,11 +168,13 @@ class Insurance
 
     public function checkExpirationDate(DateTime $todaysDate)
     {
+        if($this->status=='Active'){
         if($this->type=='Private')
             return $this->checkMonthlyInsurance($todaysDate);
         elseif($this->type=='Dental')
             return $this->checkYearlyInsurance($todaysDate);
-        else return true;
+        }
+        return true;
     }
 
     private function checkMonthlyInsurance(DateTime $todaysDate):bool

@@ -29,7 +29,7 @@ class InsuredRepository extends EntityRepository
 
         $this->getEntityManager()->flush();
         header('Location: /insurances');
-        exit();
+
     }
 
     public function delete():void{
@@ -39,7 +39,7 @@ class InsuredRepository extends EntityRepository
         $this->getEntityManager()->remove($customer);
         $this->getEntityManager()->flush();
         header('Location: /insurances');
-        exit();
+
     }
 
     public function edit()
@@ -52,6 +52,6 @@ class InsuredRepository extends EntityRepository
         $service->update($name,$address);
         $this->getEntityManager()->flush();
         header('Location: /insurances');
-        exit();
+
     }
 }

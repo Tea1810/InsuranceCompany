@@ -39,7 +39,7 @@ if($pathParts[0]=="customers"){
 
 if($pathParts[0]=="insurances"){
     if(sizeof($pathParts)==1){
-        $sortBy=isset($_POST['sort'])? $_POST['sort']: null;
+        $sortBy=isset($_GET['sort'])? $_GET['sort']: null;
         echo $insuranceController->DisplayInsurances($sortBy);
     }
     elseif($pathParts[1]=="new")

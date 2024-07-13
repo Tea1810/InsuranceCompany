@@ -29,7 +29,7 @@ class InsuranceRepository extends EntityRepository
         $this->getEntityManager()->persist($entity);
         $this->getEntityManager()->flush();
         header('Location: /insurances');
-        exit();
+
     }
     public function createBasicInsurance(Insured $customer){
         $type='Basic';
@@ -44,7 +44,7 @@ class InsuranceRepository extends EntityRepository
         $this->getEntityManager()->persist($entity);
         $this->getEntityManager()->flush();
         header('Location: /insurances');
-        exit();
+
     }
 
     public function createCollection():Collection{
@@ -64,7 +64,7 @@ class InsuranceRepository extends EntityRepository
         $this->getEntityManager()->remove($insurance);
         $this->getEntityManager()->flush();
         header('Location: /insurances');
-        exit();
+
     }
     public function edit()
     {
@@ -77,7 +77,7 @@ class InsuranceRepository extends EntityRepository
         $insurance->update($status,$services);
         $this->getEntityManager()->flush();
         header('Location: /insurances');
-        exit();
+
     }
 
 
