@@ -25,6 +25,7 @@ class InsuranceController
     }
     public function DisplayInsurances(?string $sortBy)
     {
+        $this->insuranceRepository->verifyInsurances();
         $insurances=$sortBy
                     ?$this->insuranceRepository->findBy([],[$sortBy=>'ASC'])
                     :$this->insuranceRepository->findAll();
@@ -35,9 +36,6 @@ class InsuranceController
 
     }
 
-    public function OrderBy(string $criteria){
-        $this->insuranceRepository->setOrderCriteria($criteria);
-    }
 
     public function DisplayNewInsurance()
     {

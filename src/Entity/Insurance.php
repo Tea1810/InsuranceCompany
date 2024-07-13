@@ -153,7 +153,7 @@ class Insurance
     {
         return $this->insured;
     }
-    public function update(string $status, Collection $services): void{
+    public function update(string $status, ?Collection $services): void{
         $this->status=$status;
         if(!$services->isEmpty()) {
             while(!$this->services->isEmpty() && $this->services[0]!=NULL){
@@ -165,4 +165,39 @@ class Insurance
             $this->pricing = $this->CalculatePrice($this->services);
         }
     }
+
+    public function checkExpirationDate(DateTime $todaysDate)
+    {
+        if($this->type=='Private')
+            return $this->checkMonthlyInsurance($todaysDate);
+        elseif($this->type=='Dental')
+            return $this->checkYearlyInsurance($todaysDate);
+        else return true;
+    }
+
+    private function checkMonthlyInsurance(DateTime $todaysDate):bool
+    {
+        $interval=$this->creation_date->diff($todaysDate);
+
+        if($interval->m>1 || $interval->y>0)
+            return false;
+        elseif ($interval->m==1 && $interval->d>0)
+            return false;
+
+        return true;
+
+    }
+
+    private function checkYearlyInsurance(DateTime $todaysDate):bool
+    {
+        $interval=$this->creation_date->diff($todaysDate);
+
+        if($interval->y>1)
+            return false;
+        elseif ($interval->y==1 && $interval->d>0)
+            return false;
+
+        return true;
+    }
+
 }
