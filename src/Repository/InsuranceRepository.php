@@ -2,6 +2,7 @@
 
 namespace Repository;
 
+use CheckContraints;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityRepository;
@@ -12,7 +13,6 @@ use Entity\Service;
 
 class InsuranceRepository extends EntityRepository
 {
-    private ?string $sort=null;
     public function save(): void
     {
         $type=$_POST['type'];
@@ -80,12 +80,16 @@ class InsuranceRepository extends EntityRepository
         exit();
     }
 
-    public function setOrderCriteria(string $criteria)
-    {
-        $this->sort=$criteria;
-    }
 
-    public function canOrder(){
-        return $this->sort;
+    public function verifyInsurances()
+    {
+        $insurances=$this->findAll();
+
+        foreach ($insurances as $insurance){
+            if(CheckContraints::checkInsurances($insurance)==false){
+                   $insurance->update('Inactive',new ArrayCollection());
+            }
+        }
+
     }
 }
