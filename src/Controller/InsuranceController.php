@@ -26,13 +26,17 @@ class InsuranceController
     public function DisplayInsurances(?string $sortBy)
     {
         $this->insuranceRepository->verifyInsurances();
+        $sortByEntityName=["insured","insurer"];
         $insurances=$sortBy
-                    ?$this->insuranceRepository->findBy([],[$sortBy=>'ASC'])
-                    :$this->insuranceRepository->findAll();
+                ? (in_array($sortBy, $sortByEntityName))
+                   ? $this->SortByEntityName($sortBy)
+                   : $this->insuranceRepository->findBy([],[$sortBy=>'ASC'])
+                : $this->insuranceRepository->findAll();
 
-            return $this->twig->render('Insurance/insurance.html.twig', [
-                'insurances' => $insurances,
-            ]);
+
+        return $this->twig->render('Insurance/insurance.html.twig', [
+        'insurances' => $insurances,
+    ]);
 
     }
 
@@ -66,4 +70,13 @@ class InsuranceController
             'services'=>$this->entityManager->getRepository(Service::class)->findAll(),
         ]);
     }
+
+    private function SortByEntityName(?string $sortBy)
+    {
+        $q = $this->insuranceRepository->createQueryBuilder('i')
+            ->leftJoin("i.$sortBy",$sortBy)
+            ->orderBy("$sortBy.name",'ASC');
+        return $q->getQuery()->getResult();
+    }
+
 }
