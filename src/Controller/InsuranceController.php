@@ -3,6 +3,7 @@
 namespace Controller;
 
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\QueryBuilder;
 use Entity\Insurance;
 use Entity\Insured;
 use Entity\Insurer;
@@ -23,19 +24,21 @@ class InsuranceController
         $this->insuranceRepository= $this->entityManager->getRepository(Insurance::Class);
 
     }
-    public function DisplayInsurances(?string $sortBy)
+    public function DisplayInsurances()
     {
+        $sortBy= $_POST['sort'] ?? null;
+
         $this->insuranceRepository->verifyInsurances();
-        $sortByEntityName=["insured","insurer"];
-        $insurances=$sortBy
-                ? (in_array($sortBy, $sortByEntityName))
-                   ? $this->SortByEntityName($sortBy)
-                   : $this->insuranceRepository->findBy([],[$sortBy=>'ASC'])
-                : $this->insuranceRepository->findAll();
+
+        if(isset($_GET['filterBy']))
+            $insurances= $this->FilterInsurances($sortBy);
+        else
+            $insurances=$this->SortInsurances($sortBy);
 
 
         return $this->twig->render('Insurance/insurance.html.twig', [
         'insurances' => $insurances,
+        'customers'=>$this->entityManager->getRepository(Insured::class)->findAll(),
     ]);
 
     }
@@ -71,12 +74,15 @@ class InsuranceController
         ]);
     }
 
-    private function SortByEntityName(?string $sortBy)
+    private function FilterInsurances(?string $sortBy)
     {
-        $q = $this->insuranceRepository->createQueryBuilder('i')
-            ->leftJoin("i.$sortBy",$sortBy)
-            ->orderBy("$sortBy.name",'ASC');
-        return $q->getQuery()->getResult();
+        return $this->insuranceRepository->search($sortBy);
     }
+
+    private function SortInsurances(?string $sortBy)
+    {
+        return $this->insuranceRepository->sort($this->insuranceRepository->createQueryBuilder('insurance'),$sortBy);
+    }
+
 
 }
