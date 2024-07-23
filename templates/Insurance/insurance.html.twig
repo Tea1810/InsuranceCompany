@@ -6,6 +6,7 @@
     <div class="float-end">
     <a href="insurances/new" class="btn btn-primary ">Create new insurance</a>
     <a href="customers/new" class="btn btn-primary ">Create new customer</a>
+    <button id="filteringButton" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal">Filter <i class="fa-solid fa-filter"></i></button>
     </div>
 {% endblock %}
 {% block TableBody %}
@@ -16,35 +17,35 @@
             <th>
                 <div class="d-flex align-items-center">
                 Type
-                <form  method="GET" >
+                <form method="POST" >
                     <button type="submit" name="sort" value="type" class="btn btn-sm"> <i class="fa-solid fa-sort-down"></i></button>
                 </form>
                 </div>
             </th>
             <th><div class="d-flex align-items-center">
                     Status
-                    <form method="GET">
+                    <form method="POST">
                         <button type="submit" name="sort" value="status" class="btn btn-sm"> <i class="fa-solid fa-sort-down"></i></button>
                     </form>
                 </div></th>
             <th>
                 <div class="d-flex align-items-center">
                     Creation date
-                    <form method="GET">
+                    <form method="POST">
                         <button type="submit" name="sort" value="creation_date" class="btn btn-sm"> <i class="fa-solid fa-sort-down"></i></button>
                     </form>
                 </div>
             </th>
             <th><div class="d-flex align-items-center">
                    Customer
-                    <form method="GET">
+                    <form method="POST">
                         <button type="submit" name="sort" value="insured" class="btn btn-sm"> <i class="fa-solid fa-sort-down"></i></button>
                     </form>
                 </div></th>
             <th>
                 <div class="d-flex align-items-center">
                     Insuring company
-                    <form method="GET">
+                    <form method="POST">
                         <button type="submit" name="sort" value="insurer" class="btn btn-sm"> <i class="fa-solid fa-sort-down"></i></button>
                     </form>
                 </div></th>
@@ -71,4 +72,15 @@
             </tr>
         {% endfor %}
         </tbody></table>
+{% endblock %}
+{% block Modal %}
+    {% include 'Insurance/filterModal.html.twig' with { 'insurances': insurances , 'customers':customers } %}
+
+    <script>
+        const myModal=new bootstrap.Modal('myModal');
+        const button=document.getElementById('filteringButton');
+        button.addEventListener('DOMContentLoaded',()=>{
+            myModal.show();
+        })
+    </script>
 {% endblock %}

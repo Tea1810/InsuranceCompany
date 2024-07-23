@@ -1,0 +1,111 @@
+ <div id="myModal" class="modal fade" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Filter by</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form  method="GET">
+                    <div class="container mt-2">
+                        <div class="col-auto">
+                        <fieldset class="row mb-4">
+                            <legend class="col-form-label col-sm-2 pt-0">Type:</legend>
+                            <div class="col-sm-10">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="type" value="null" checked>
+                                    <label class="form-check-label">
+                                        None
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="type" value="Basic">
+                                    <label class="form-check-label">
+                                        Basic
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="type" value="Private">
+                                    <label class="form-check-label">
+                                        Private
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="type" value="Dental">
+                                    <label class="form-check-label" >
+                                        Dental
+                                    </label>
+                                </div>
+                            </div>
+                        </fieldset>
+                        <fieldset class="row mb-2">
+                            <legend class="col-form-label col-sm-2 pt-0">Status:</legend>
+                            <div class="col-sm-10">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="status" value="null" checked>
+                                    <label class="form-check-label">
+                                        None
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="status" value="Active">
+                                    <label class="form-check-label">
+                                        Active
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="status" value="Inactive">
+                                    <label class="form-check-label" >
+                                        Inactive
+                                    </label>
+                                </div>
+                            </div>
+                        </fieldset>
+                        <fieldset class="row mb-2">
+                            <legend class="col-form-label col-sm-2 pt-0">Date:</legend>
+                            <div class="col-sm-8">
+                                <section>
+                                <label >From  </label>
+                                <div class="float-end">
+                                 <input class="form-control-sm" name="start_date" type="date" >
+                                </div>
+                                </section>
+                                <section>
+                                <label >To  </label>
+                                <div class="float-end">
+                                    <input class="form-control-sm" name="end_date" type="date" >
+                                </div>
+                            </section>
+                            </div>
+                        </fieldset>
+                        <fieldset class="row mb-2">
+                        <legend class="col-form-label col-sm-2 pt-0">Customers: </legend>
+                        <div class="col-sm-10">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="insured" value="null" checked>
+                                <label class="form-check-label">
+                                    None
+                                </label>
+                            </div>
+                            {% for customer in customers %}
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="insured" value={{ customer.id }}>
+                                <label class="form-check-label">
+                                    {{ customer.name }}
+                                </label>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </fieldset>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" name="filterBy" class="btn btn-primary">Save changes</button>
+                </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
