@@ -2,7 +2,7 @@
 
 namespace Repository;
 
-use CheckContraints;
+use CheckExpiredInsurances;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -17,10 +17,10 @@ class InsuranceRepository extends EntityRepository
 {
     public function save(): void
     {
-        $type=$_POST['type'];
-        $status=$_POST['status'];
-        $insurer_id=$this->getEntityManager()->getRepository(Insurer::class)->find($_POST['insurer_id']);
-        $insured_id=$this->getEntityManager()->getRepository(Insured::class)->find($_POST['insured_id']);
+        $type=htmlspecialchars($_POST['type']) ;
+        $status=htmlspecialchars($_POST['status']);
+        $insurer_id=$this->getEntityManager()->getRepository(Insurer::class)->find(htmlspecialchars($_POST['insurer_id']));
+        $insured_id=$this->getEntityManager()->getRepository(Insured::class)->find(htmlspecialchars($_POST['insured_id']));
         $services=$this->createCollection();
 
         $entity=new Insurance($type, $status, $insurer_id, $insured_id, $services);
@@ -88,7 +88,7 @@ class InsuranceRepository extends EntityRepository
         $insurances=$this->findAll();
 
         foreach ($insurances as $insurance){
-            if(CheckContraints::checkInsurances($insurance)==false){
+            if(CheckExpiredInsurances::checkInsurances($insurance)==false){
                    $insurance->update('Inactive',new ArrayCollection());
             }
         }

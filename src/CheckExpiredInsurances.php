@@ -2,7 +2,7 @@
 
 use Entity\Insurance;
 
-class CheckContraints
+class CheckExpiredInsurances
 {
 
     public static function checkInsurances(Insurance $insurance):bool

@@ -25,11 +25,18 @@ class CustomerController
     public function CreateCustomer()
     {
         $this->customerRepository->save();
+    }
 
+    public function getErrors()
+    {
+        return $this->customerRepository->getErrors();
     }
     public function DisplayNewCustomer()
     {
-        return $this->twig->render('Customer/new.html.twig');
+        $errors=$this->customerRepository->getErrors();
+        return $this->twig->render('Customer/new.html.twig',[
+            'errors'=>$errors,
+        ]);
     }
     public function DisplayCustomers()
     {
