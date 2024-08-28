@@ -8,6 +8,7 @@ use Entity\Service;
 use Repository\InsuredRepository;
 use Repository\ServiceRep;
 use Twig\Environment;
+use Validations;
 
 class CustomerController
 {
@@ -24,7 +25,26 @@ class CustomerController
     }
     public function CreateCustomer()
     {
-        $this->customerRepository->save();
+        $validation=new Validations();
+
+        $firstName = $_POST['firstName'];
+        $firstName=$validation->ValidateUserInput($firstName);
+
+        $lastName=$_POST['lastName'];
+        $lastName=$validation->ValidateUserInput($lastName);
+
+        $street = $_POST['street'];
+        $street=$validation->ValidateUserInput($street);
+
+        $number=$_POST['number'];
+        $number=$validation->ValidateUserInput($number);
+
+        $name=$firstName." ".$lastName;
+        $address=$street." nr. ".$number;
+
+        $customer=new Insured($name,$address);
+
+        $this->customerRepository->save($customer);
 
     }
     public function DisplayNewCustomer()
@@ -37,18 +57,6 @@ class CustomerController
             'customers' => $this->customerRepository->findAll(),
         ]);
     }
-    public function EditCustomer(){
-        $this->customerRepository->edit();
-    }
-    public function DisplayEditCustomer($id)
-    {
-        $service = $this->customerRepository->find($id);
-        return $this->twig->render('Customer/edit.html.twig', [
-            'customer' => $service,
-        ]);
-    }
 
-    public function DeleteCustomer(){
-        $this->customerRepository->delete();
-    }
+
 }
