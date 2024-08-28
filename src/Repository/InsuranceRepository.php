@@ -15,25 +15,14 @@ use Entity\Service;
 
 class InsuranceRepository extends EntityRepository
 {
-    public function save(): void
+
+    public function save(?Insurance $entity): void
     {
-        $type=$_POST['type'];
-        $status=$_POST['status'];
-        $insurer_id=$this->getEntityManager()->getRepository(Insurer::class)->find($_POST['insurer_id']);
-        $insured_id=$this->getEntityManager()->getRepository(Insured::class)->find($_POST['insured_id']);
-        $services=$this->createCollection();
-
-        $entity=new Insurance($type, $status, $insurer_id, $insured_id, $services);
-
-        $insured_id->addInsurance($entity);
-        $insurer_id->addInsurance($entity);
-
         $this->getEntityManager()->persist($entity);
         $this->getEntityManager()->flush();
-        header('Location: /insurances');
-
     }
     public function createBasicInsurance(Insured $customer){
+
         $type='Basic';
         $status='Active';
         $insurer=NULL;
@@ -44,41 +33,20 @@ class InsuranceRepository extends EntityRepository
         $customer->addInsurance($entity);
 
         $this->getEntityManager()->persist($entity);
-        $this->getEntityManager()->flush();
-        header('Location: /insurances');
 
     }
 
-    public function createCollection():Collection{
-        $services=new ArrayCollection();
-      foreach ($_POST['services'] as $id)
-      {
-          $service=$this->getEntityManager()->getRepository(Service::class)->find($id);
-          $services->add($service);
-      }
-     return $services;
-     }
+    public function delete(int $id):void{
 
-    public function delete():void{
-
-        $id=$_POST['deleteInsurance'];
         $insurance=$this->find($id);
         $this->getEntityManager()->remove($insurance);
         $this->getEntityManager()->flush();
-        header('Location: /insurances');
 
     }
-    public function edit()
+    public function edit(?Insurance $insurance, ?string $status,?ArrayCollection $services)
     {
-        $id=$_POST['id'];
-        $status=$_POST['status'];
-        $services=$this->createCollection();
-
-        $insurance=$this->getEntityManager()->find(Insurance::class,$id);
-
         $insurance->update($status,$services);
         $this->getEntityManager()->flush();
-        header('Location: /insurances');
 
     }
 
@@ -90,6 +58,7 @@ class InsuranceRepository extends EntityRepository
         foreach ($insurances as $insurance){
             if(CheckContraints::checkInsurances($insurance)==false){
                    $insurance->update('Inactive',new ArrayCollection());
+                   $this->getEntityManager()->flush();
             }
         }
 

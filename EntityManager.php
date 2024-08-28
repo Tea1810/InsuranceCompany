@@ -13,19 +13,18 @@ if(isset($_POST['updateService'])){
 }
 if(isset($_POST['saveCustomer'])) {
     $customerController->CreateCustomer();
+    header('Location: /insurances');
 }
-if(isset($_POST['deleteCustomer'])){
-    $customerController->DeleteCustomer();
-}
-if(isset($_POST['updateCustomer'])){
-    $customerController->EditCustomer();
-}
+
 if(isset($_POST['saveInsurance'])) {
     $insuranceController->CreateInsurance();
+    header('Location: /insurances');
 }
 if(isset($_POST['deleteInsurance'])) {
     $insuranceController->DeleteInsurance();
+    header('Location: /insurances');
 }
 if(isset($_POST['updateInsurance'])){
     $insuranceController->EditInsurance();
+    header('Location: /insurances');
 }

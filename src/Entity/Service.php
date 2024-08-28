@@ -76,4 +76,8 @@ class Service
         }
         return $this;
     }
+    public function sameName(?string $service): ?int
+    {
+        return ($this->name===$service);
+    }
 }
